@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 8080
 
 const moviesRouter = require("./routes/movies")
+const homeRouter = require("./routes/home")
 
 app.use(cookieParser());
 app.use(express.json())
@@ -27,13 +28,8 @@ app.use((req, res, next) => {
 })
 
 
-
-app.get('/', (req, res) => {
-  console.log
-  res.cookie('name', 'express').sendFile(__dirname + '/public/index.html')
-})
-
 app.use("/api/movies", moviesRouter)
+app.use("/", homeRouter)
 
 app.use((err, req, res, next) => {
   console.log("error middleware")
