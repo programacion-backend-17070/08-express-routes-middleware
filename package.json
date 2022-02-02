@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/programacion-backend-17070/08-express-routes-middleware#readme",
   "dependencies": {
-    "express": "^4.17.2"
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

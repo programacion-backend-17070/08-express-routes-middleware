@@ -2,14 +2,14 @@ const express = require('express')
 const { Router } = express;
 
 const movies = [
-  { id: 1, name: 'Joker' }, 
+  { id: 1, name: 'Joker' },
   { id: 2, name: 'Good Fellas' },
   { id: 3, name: 'Matrix' }
 ];
 
 const router = Router();
 
-router.get('/', (req, res) => { 
+router.get('/', (req, res) => {
   res.status(200).send(movies)
 })
 
@@ -34,7 +34,15 @@ router.post('/', (req, res) => {
   res.sendStatus(201) // created
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res, next) => {
+  const { id } = req.params
+  if (id == "1") {
+    res.status(401).send("Movie 1 cannot be changed")
+    return
+  }
+
+  next()
+}, (req, res) => {
   const { id } = req.params
   const { name } = req.body
 
