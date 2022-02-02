@@ -7,14 +7,21 @@
     <nav>
       <ul>
         <a href="/"><li>Inicio</li></a>
-        <a href="/nueva"><li>Agregar pelicula</li></a>
+        <a href="/mascotas"><li>Agregar mascota</li></a>
       </ul>
     </nav>
     <div class="container">
-      <form action="/movies/new" enctype="multipart/form-data" method="post">
+      <form action="/mascotas" enctype="multipart/form-data" method="post">
         <div>
           <label for="name">Nombre </label>
           <input name="name" />
+        </div>
+        <div>
+          <label for="type">Tipo </label>
+          <select name="type" >
+            <option value="cat">Gato</option>
+            <option value="dog">Perro</option>
+          </select>
         </div>
         <div>
           <label for="img">Imagen </label>
@@ -26,7 +33,7 @@
         </div>
       </form>
 
-      <form action="/movies/new/multiple" enctype="multipart/form-data" method="post">
+      <form action="/mascotas/multiple" enctype="multipart/form-data" method="post">
         <p>Sube muchos archivos</p>
         <div>
           <label for="name">Nombre </label>

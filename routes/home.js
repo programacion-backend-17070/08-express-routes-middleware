@@ -3,6 +3,12 @@ const path = require("path");
 const express = require('express')
 const { Router } = express;
 
+// {
+//  name
+//  tipo
+// }
+const mascotas = []
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, '../public/img'))
@@ -19,12 +25,12 @@ router.get('/', (req, res) => {
   res.cookie('name', 'express').sendFile(path.join(__dirname, '../public/index.html'))
 })
 
-router.get('/nueva', (req, res) => {
+router.get('/mascotas', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/nueva.html'))
 })
 
 
-router.post('/movies/new', upload.single("img"), (req, res) => {
+router.post('/mascotas', upload.single("img"), (req, res) => {
   if (req.file) {
     console.log("tenemos file")
   }
@@ -32,7 +38,7 @@ router.post('/movies/new', upload.single("img"), (req, res) => {
   res.redirect('/')
 })
 
-router.post('/movies/new/multiple', upload.array("img", 2), (req, res) => {
+router.post('/mascotas/multiple', upload.array("img", 2), (req, res) => {
   if (req.files) {
     console.log("tenemos file")
   }
