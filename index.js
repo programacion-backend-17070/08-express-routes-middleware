@@ -1,73 +1,39 @@
 const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 8080
 
-const movies = [
-  { id: 1, name: 'Joker' }, 
-  { id: 2, name: 'Good Fellas' },
-  { id: 3, name: 'Matrix' }
-];
+const moviesRouter = require('./routes/movies')
+const homeRouter = require('./routes/home')
 
-app.use(express.json())
-// app.use(express.urlencoded({ extended: true }))
+app.use(express.json()) // req.body
+app.use(express.urlencoded({ extended: true })) // req.body
+app.use(cookieParser())
+// /Users/Lalo/Documents/Coderhouse/source/08-express-routes-middleware/public
+app.use("/static", express.static(path.join(__dirname, 'public'))) // /
+app.use("/docs", express.static("docs")) 
+// 
 
-app.get('/api/movies', (req, res) => { 
-  res.status(200).send(movies)
+app.use((req, res, next) => {
+  console.log("logging")
+  next()
 })
 
-app.get('/api/movies/:id', (req, res) => {
-  const movie = movies.find(m => m.id === req.params.id)
-  if (!movie) {
-    res.status(404).send("Movie not found")
-    return
-  }
-
-  res.send(movie)
+app.use((req, res, next) => {
+  console.log("auth...")
+  next()
 })
 
-app.post('/api/movies/:id', (req, res) => {
-  const { id } = req.params
-  const { name } = req.body
-
-  const movie = movies.find(m => m.id === id)
-  if (!movie) {
-    res.status(404).send("Movie not found")
-    return
-  }
-
-
-  res.sendStatus(201)
+app.use((err, req, res, next) => {
+  console.log("hubo un error")
+  res.status(500).send("Error")
 })
 
-app.put('/api/movies/:id', (req, res) => {
-  const { id } = req.params
-  const { name } = req.body
+app.use("/api/movies", moviesRouter)
 
-  const movie = movies.find(m => m.id === id)
-  if (!movie) {
-    res.status(404).send("Movie not found")
-    return
-  }
-
-  movie.name = name;
-  res.sendStatus(200)
-})
-
-app.delete('/api/movies/:id', (req, res) => {
-  const { id } = req.params
-
-  const movie = movies.find(m => m.id === id)
-  if (!movie) {
-    res.status(404).send("Movie not found")
-    return
-  }
-
-  const index = movies.indexOf(movie)
-  movies.splice(index, 1)
-
-  res.sendStatus(200)
-})
-
+// dentro de esta ruta yo puse lo de /mascotas
+app.use("/", homeRouter)
 
 app.listen(
   PORT,
